@@ -1,9 +1,19 @@
-FROM node:16
+FROM node:16 as builder
 
 WORKDIR /app
 
 COPY . .
 
-EXPOSE 3000
+RUN npm run build
 
-CMD ["yarn", "start"]
+# EXPOSE 3000
+
+# CMD ["yarn", "start"]
+
+FROM nginx:alpine
+
+WORKDIR /usr/share/nginx/html
+
+COPY --from=builder /app/build .
+
+CMD ["nginx", "-g", "daemon off;"]
