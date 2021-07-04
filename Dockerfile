@@ -2,9 +2,11 @@ FROM node:16 as builder
 
 WORKDIR /app
 
-COPY . .
+COPY package.json .
 
 RUN npm run build
+
+COPY . .
 
 # EXPOSE 3000
 
